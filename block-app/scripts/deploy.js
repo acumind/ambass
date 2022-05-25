@@ -2,7 +2,7 @@ const { ethers } = require("hardhat");
 
 async function main() {
   const ambContract = await ethers.getContractFactory("AMBContract");
-  const deployedAmbContract = await ambContract.deploy();
+  const deployedAmbContract = await ambContract.deploy("AMBASS", "AMB");
   await deployedAmbContract.deployed();
 
   console.log("AMB Contract Address: ", deployedAmbContract.address);
