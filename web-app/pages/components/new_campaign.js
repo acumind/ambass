@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
+import Router, { useRouter } from "next/router";
 import { BigNumber, Contract, providers, utils } from "ethers";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styles from "../../styles/Home.module.css";
+import nProgress from "nprogress";
+
 import Header from "./Header";
 import Web3Modal from "web3modal";
 import { AMBASS_CONTRACT_ADDRESS, AMBASS_CONTRACT_ABI } from "../../constants";
@@ -30,6 +33,10 @@ const airdrop_options = [
   },
 ];
 
+Router.events.on("routeChangeStart", nProgress.start);
+Router.events.on("routeChangeError", nProgress.done);
+Router.events.on("routeChangeComplete", nProgress.done);
+
 export default function Campaign() {
   const [campaignStartDate, setCampaignStartDate] = useState(new Date());
   const [airdropDate, setAirdropDate] = useState(new Date());
@@ -40,6 +47,7 @@ export default function Campaign() {
   const [ambAllocation, setAMBAllocation] = useState(0);
   const [loading, setLoading] = useState(false);
   const web3ModalRef = useRef();
+  const router = useRouter();
 
   const getProvider = async () => {
     const provider = await web3ModalRef.current.connect();
@@ -72,10 +80,11 @@ export default function Campaign() {
   }, []);
 
   const createSubToken = async () => {
-    console.log("Creating Campaing SubTokens");
+    console.log("Creating Campaign SubTokens");
     setLoading(true);
     try {
       const signer = await getSigner();
+      const signerAddress = await signer.getAddress();
       const tokenContract = new Contract(
         AMBASS_CONTRACT_ADDRESS,
         AMBASS_CONTRACT_ABI,
@@ -83,18 +92,30 @@ export default function Campaign() {
       );
 
       const tx = await tokenContract.createSubToken(
+        campaignName,
         subTokenName,
         subTokenTicker,
         subTokenMaxSupply,
-        tokenContract.address
+        ambAllocation,
+        campaignStartDate,
+        airdropDate,
+        10,
+        signerAddress
       );
 
       await tx.wait();
       setLoading(false);
-      console.log("Campaign SubTokens Created");
+      router.push("/");
+      console.log("Campaign SubTokens Created by ", signerAddress);
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleSubmit = (e) => {
+    console.log("handleSubmit()");
+    e.preventDefault();
+    createSubToken();
   };
 
   return (
@@ -249,10 +270,7 @@ export default function Campaign() {
 
                 <div>
                   <button
-                    onClick={(event) => {
-                      event.preventDefault();
-                      createSubToken();
-                    }}
+                    onClick={handleSubmit}
                     className="mt-4 group relative w-full flex justify-center
                 py-2 px-4 border border-transparent text-sm font-medium
                 rounded-md text-white bg-indigo-600 hover:bg-indigo-700

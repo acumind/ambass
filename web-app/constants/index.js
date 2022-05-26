@@ -140,6 +140,11 @@ export const AMBASS_CONTRACT_ABI = [
     inputs: [
       {
         internalType: "string",
+        name: "campaign_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
         name: "stoken_name",
         type: "string",
       },
@@ -151,6 +156,26 @@ export const AMBASS_CONTRACT_ABI = [
       {
         internalType: "uint256",
         name: "maxSupply",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amb_allocation",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "camp_start_date",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "airdrop_date",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "airdrop_amount",
         type: "uint256",
       },
       {
@@ -208,6 +233,44 @@ export const AMBASS_CONTRACT_ABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "string",
+        name: "stoken_ticker",
+        type: "string",
+      },
+    ],
+    name: "doAirDrop",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "stoken_ticker",
+        type: "string",
+      },
+    ],
+    name: "doDistro",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "getAmbContractAddress",
     outputs: [
@@ -221,8 +284,46 @@ export const AMBASS_CONTRACT_ABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "joinerAddress",
+        type: "address",
+      },
+    ],
+    name: "getJoinedSubTokens",
+    outputs: [
+      {
+        internalType: "string[]",
+        name: "",
+        type: "string[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "getSubTokens",
+    outputs: [
+      {
+        internalType: "string[]",
+        name: "",
+        type: "string[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "getSubTokensByAddress",
     outputs: [
       {
         internalType: "string[]",
@@ -252,6 +353,40 @@ export const AMBASS_CONTRACT_ABI = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "stoken_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "stoken_ticker",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "joinerAddress",
+        type: "address",
+      },
+    ],
+    name: "joinAndGetSubToken",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
       },
     ],
     stateMutability: "nonpayable",
@@ -323,25 +458,6 @@ export const AMBASS_CONTRACT_ABI = [
         internalType: "string",
         name: "",
         type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "tokenIdsClaimed",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -432,4 +548,4 @@ export const AMBASS_CONTRACT_ABI = [
   },
 ];
 export const AMBASS_CONTRACT_ADDRESS =
-  "0x871577A9a2504BD1b07206406cfdfc7318f8FAA5";
+  "0x45755604bbf647E2eEd43d2ad609bF8dc7E79AA2";

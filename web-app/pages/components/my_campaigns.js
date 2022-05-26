@@ -7,7 +7,7 @@ import Header from "./Header";
 import Web3Modal from "web3modal";
 import { AMBASS_CONTRACT_ADDRESS, AMBASS_CONTRACT_ABI } from "../../constants";
 
-export default function CampaignList() {
+export default function MyCampaignList() {
   const [subTokens, setSubTokens] = useState([]);
   const [loading, setLoading] = useState(false);
   const web3ModalRef = useRef();
@@ -33,17 +33,18 @@ export default function CampaignList() {
     return web3Provider.getSigner();
   };
 
-  const getAllSubTokens = async () => {
-    console.log("getAllSubTokens()");
+  const getAllSubTokensByAddress = async () => {
+    console.log("getAllSubTokensByAddress()");
     try {
-      const signer = await getProvider();
+      const signer = await getSigner();
+      const address = await signer.getAddress();
       const tokenContract = new Contract(
         AMBASS_CONTRACT_ADDRESS,
         AMBASS_CONTRACT_ABI,
         signer
       );
 
-      const subTokenArray = await tokenContract.getSubTokens();
+      const subTokenArray = await tokenContract.getSubTokensByAddress(address);
       setLoading(true);
       //await subTokenArray;
       console.log(subTokenArray);
@@ -60,13 +61,15 @@ export default function CampaignList() {
       providerOptions: {},
       disableInjectedProvider: false,
     });
-    getAllSubTokens();
+    getAllSubTokensByAddress();
   }, []);
 
-  const showCampaignDetail = async () => {};
+  const showCampaignDetail = async () => {
+    console.log("showCampaignDetail():");
+  };
 
-  const joinAndGetSubtoken = async (subTokenTicker) => {
-    console.log("Get SubToken and Join Campaign");
+  const doAirDrop = async (subTokenTicker) => {
+    console.log("doAirDrop");
     setLoading(true);
     try {
       const signer = await getSigner();
@@ -77,27 +80,49 @@ export default function CampaignList() {
         signer
       );
 
-      const tx = await tokenContract.joinAndGetSubToken(
-        subTokenTicker, //subTokenName
-        subTokenTicker,
-        10,
-        signerAddress
-      );
+      const tx = await tokenContract.doAirDrop(subTokenTicker);
 
       await tx.wait();
       setLoading(false);
       //router.push("/");
-      console.log("Got  %s and Joined Campaign", subTokenTicker);
+      console.log("AirDrop Completed.");
     } catch (err) {
       console.error(err);
     }
   };
 
-  const handleJoin = (e) => {
-    console.log("joining a campaign for token: ", e.target.value);
-    joinAndGetSubtoken(e.target.value);
+  const doDistro = async (subTokenTicker) => {
+    console.log("doDistro");
+    setLoading(true);
+    try {
+      const signer = await getSigner();
+      const signerAddress = await signer.getAddress();
+      const tokenContract = new Contract(
+        AMBASS_CONTRACT_ADDRESS,
+        AMBASS_CONTRACT_ABI,
+        signer
+      );
+
+      const tx = await tokenContract.doDistro(subTokenTicker);
+
+      await tx.wait();
+      setLoading(false);
+      router.push("/");
+      console.log("Got `{subTokenTicker}` and Joined Campaign");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
+  const handleAirDrop = (e) => {
+    console.log("handleAirDrop");
+    doAirDrop(e.target.value);
+  };
+
+  const handleDistro = (e) => {
+    console.log("handleDistro");
+    doDistro(e.target.value);
+  };
   return (
     <div className={styles.container}>
       <Header />
@@ -115,24 +140,25 @@ export default function CampaignList() {
 
                   <button
                     value={token}
-                    onClick={handleJoin}
+                    onClick={handleAirDrop}
                     className=" flex mt-4 group relative w-30 flex justify-center
-                                py-2 px-4 border border-transparent text-sm font-medium
-                                rounded-md text-white bg-blue-300 hover:bg-indigo-300
-                                focus:outline-none focus:ring-2 focus:ring-offset-2
-                                focus:ring-indigo-500"
+                py-2 px-4 border border-transparent text-sm font-medium
+                rounded-md text-white bg-blue-300 hover:bg-indigo-300
+                focus:outline-none focus:ring-2 focus:ring-offset-2
+                focus:ring-indigo-500"
                   >
-                    Join
+                    AirDrop
                   </button>
                   <button
                     value={token}
+                    onClick={handleDistro}
                     className=" flex mt-4 group relative w-30 flex justify-center
-                                py-2 px-4 border border-transparent text-sm font-medium
-                                rounded-md text-white bg-blue-300 hover:bg-indigo-300
-                                focus:outline-none focus:ring-2 focus:ring-offset-2
-                                focus:ring-indigo-500"
+                py-2 px-4 border border-transparent text-sm font-medium
+                rounded-md text-white bg-blue-300 hover:bg-indigo-300
+                focus:outline-none focus:ring-2 focus:ring-offset-2
+                focus:ring-indigo-500"
                   >
-                    Detail
+                    Distro
                   </button>
                 </div>
               </div>

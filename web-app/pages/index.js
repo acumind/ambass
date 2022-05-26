@@ -126,7 +126,8 @@ export default function Home() {
                 <h2>Wallet Connected</h2>
               </button>
               <p>
-                You have {utils.formatEther(tokensMinted).toString()} AMB Tokens
+                You have {utils.formatEther(balanceOfAMBTokens).toString()}/
+                {utils.formatEther(tokensMinted).toString()} AMB Tokens
               </p>
               <p>Creaet campaigns using these AMB tokens.</p>
             </div>

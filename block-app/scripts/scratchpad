@@ -1,0 +1,21 @@
+      SubToken storage token = ownerSubTokenMapping[msg.sender].push();
+        token.camName = campaign_name;
+        token.tokenName = stoken_name;
+        token.tokenTicker = stoken_ticker;
+        token.maxSupply = maxSupply;
+        token.ambAllocation = amb_allocation;
+        token.campStartDate = camp_start_date;
+        token.airDropDate = airdrop_date;
+        token.airDropAmount = (maxSupply * airdrop_amount) / 100;
+        token.ownerAddress = owner_address;
+        token.isActive = true;
+        token.tokenContractAddress = address(subTokenContract);
+
+        console.log("[contract] SubToken: %s", token.tokenTicker);
+        //ownerSubTokenMapping[msg.sender].push(token);
+        SubToken storage tokenTicker = tickerToSubToken[token.tokenTicker];
+        tokenTicker = token;
+        console.log(
+            "[contract] Ticker Subtoken: %s",
+            tickerToSubToken[token.tokenTicker].tokenTicker
+        );
