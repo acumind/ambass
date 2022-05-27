@@ -1,8 +1,8 @@
 {
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
   "parserOptions": {
         "sourceType": "module"
-    }
+    },
   "extends": "next/babel"
 
 }
