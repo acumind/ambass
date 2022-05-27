@@ -1,5 +1,6 @@
 {
-  //"extends": "next/babel"
   "parser": "babel-eslint"
+  //"extends": "next/babel"
+
 }
 
