@@ -1,5 +1,5 @@
 {
-  "parser": "eslint-parser"
+  "parser": "babel-eslint"
   //"extends": "next/babel"
 
 }
