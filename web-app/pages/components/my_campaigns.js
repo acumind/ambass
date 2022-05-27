@@ -10,6 +10,7 @@ import { AMBASS_CONTRACT_ADDRESS, AMBASS_CONTRACT_ABI } from "../../constants";
 export default function MyCampaignList() {
   const [subTokens, setSubTokens] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isRandomAirDropChecked, setRandomAirDropChecked] = useState(false);
   const web3ModalRef = useRef();
 
   const getProvider = async () => {
@@ -80,7 +81,10 @@ export default function MyCampaignList() {
         signer
       );
 
-      const tx = await tokenContract.doAirDrop(subTokenTicker);
+      const tx = await tokenContract.doAirDrop(
+        subTokenTicker,
+        isRandomAirDropChecked
+      );
 
       await tx.wait();
       setLoading(false);
@@ -123,6 +127,11 @@ export default function MyCampaignList() {
     console.log("handleDistro");
     doDistro(e.target.value);
   };
+
+  const handleOnChange = () => {
+    console.log("handleOnChange():");
+    setRandomAirDropChecked(!isRandomAirDropChecked);
+  };
   return (
     <div className={styles.container}>
       <Header />
@@ -130,18 +139,14 @@ export default function MyCampaignList() {
         <div>
           {subTokens.map((token, idx) => {
             return (
-              <div
-                key={idx}
-                className={styles.campaign_card}
-                onClick={showCampaignDetail}
-              >
-                <div className="columns-3">
-                  <span className="px-2">{token}</span>
+              <div key={idx} className={styles.campaign_card}>
+                <div className="columns-4 ">
+                  <span className="px-2 text-3xl">{token}</span>
 
                   <button
                     value={token}
                     onClick={handleAirDrop}
-                    className=" flex mt-4 group relative w-30 flex justify-center
+                    className=" flex mt-3 group relative w-30  justify-center
                 py-2 px-4 border border-transparent text-sm font-medium
                 rounded-md text-white bg-blue-300 hover:bg-indigo-300
                 focus:outline-none focus:ring-2 focus:ring-offset-2
@@ -149,6 +154,18 @@ export default function MyCampaignList() {
                   >
                     AirDrop
                   </button>
+                  <div>
+                    <input
+                      type="checkbox"
+                      id="rand-airdrop"
+                      name="Random AirDrop"
+                      value="rand-airdtop"
+                      className="m-4"
+                      checked={isRandomAirDropChecked}
+                      onChange={handleOnChange}
+                    />
+                    Auto
+                  </div>
                   <button
                     value={token}
                     onClick={handleDistro}

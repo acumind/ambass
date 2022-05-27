@@ -113,7 +113,7 @@ export default function MyCampaignList() {
                 onClick={showCampaignDetail}
               >
                 <div className="felx justify-end">
-                  <span className="px-2">{token}</span>
+                  <span className="px-2 text-3xl">{token}</span>
                   {/* 
                   <button
                     onClick={handleJoin}

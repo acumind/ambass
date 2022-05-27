@@ -229,7 +229,7 @@ export default function Campaign() {
                   focus:outline-none focus:ring-indigo-500
                   focus:border-indigo-500 focus:z-10 sm:text-sm"
                   >
-                    {ambAllocation ? subTokenMaxSupply / ambAllocation : 0}
+                    {ambAllocation ? subTokenMaxSupply / ambAllocation : 0}{" "}
                     {subTokenTicker}/AMB
                   </p>
                 </div>
@@ -249,7 +249,7 @@ export default function Campaign() {
                   </div>
                 </div>
                 <div className={styles.calendar_grid}>
-                  <div className={styles.card}>
+                  <div className={styles.calendar_card}>
                     <label htmlFor="campaign_start_date" className="">
                       Campaign Start Date
                     </label>
@@ -259,7 +259,7 @@ export default function Campaign() {
                       value={campaignStartDate}
                     />
                   </div>
-                  <div className={styles.card}>
+                  <div className={styles.calendar_card}>
                     <label htmlFor="airdropDate" className="mb-10">
                       Airdrop Date
                     </label>

@@ -111,7 +111,7 @@ export default function CampaignList() {
                 onClick={showCampaignDetail}
               >
                 <div className="columns-3">
-                  <span className="px-2">{token}</span>
+                  <span className="px-2 text-3xl">{token}</span>
 
                   <button
                     value={token}

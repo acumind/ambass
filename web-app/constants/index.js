@@ -16,6 +16,22 @@ export const AMBASS_CONTRACT_ABI = [
     type: "constructor",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "have",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "want",
+        type: "address",
+      },
+    ],
+    name: "OnlyCoordinatorCanFulfill",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -239,6 +255,11 @@ export const AMBASS_CONTRACT_ABI = [
         name: "stoken_ticker",
         type: "string",
       },
+      {
+        internalType: "bool",
+        name: "isRandomAirDrop",
+        type: "bool",
+      },
     ],
     name: "doAirDrop",
     outputs: [
@@ -434,6 +455,63 @@ export const AMBASS_CONTRACT_ABI = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "requestId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256[]",
+        name: "randomWords",
+        type: "uint256[]",
+      },
+    ],
+    name: "rawFulfillRandomWords",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "requestRandomWords",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "s_randomWords",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "s_requestId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "string",
         name: "",
         type: "string",
@@ -548,4 +626,4 @@ export const AMBASS_CONTRACT_ABI = [
   },
 ];
 export const AMBASS_CONTRACT_ADDRESS =
-  "0x45755604bbf647E2eEd43d2ad609bF8dc7E79AA2";
+  "0x6678b89eb2028efFD8a54ac7Ffb67edb2d795462";
